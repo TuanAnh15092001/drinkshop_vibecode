@@ -1,11 +1,43 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Sparkles, Coffee, Award, Truck } from 'lucide-react';
+import { ArrowRight, Sparkles, Coffee, Award, Truck, Loader } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
-import { getBestSellers, categories } from '../data/products';
+import { categories } from '../data/products';
+import { getAllProducts, getBestSellers } from '../services/productService';
 import './Home.css';
 
 const Home = () => {
-    const bestSellers = getBestSellers().slice(0, 4);
+    const [bestSellers, setBestSellers] = useState([]);
+    const [categoryCounts, setCategoryCounts] = useState({});
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                // Fetch best sellers and all products in parallel
+                const [bestSellersData, allProducts] = await Promise.all([
+                    getBestSellers(4),
+                    getAllProducts()
+                ]);
+
+                setBestSellers(bestSellersData);
+
+                // Calculate counts
+                const counts = {};
+                categories.forEach(cat => {
+                    counts[cat.id] = allProducts.filter(p => p.category === cat.id).length;
+                });
+                setCategoryCounts(counts);
+
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, []);
 
     return (
         <div className="home">
@@ -29,7 +61,7 @@ const Home = () => {
                                 Khám Phá Ngay
                                 <ArrowRight size={20} />
                             </Link>
-                            <Link to="/products?category=ca-phe" className="btn btn-secondary btn-lg">
+                            <Link to="/products" className="btn btn-secondary btn-lg">
                                 Xem Menu
                             </Link>
                         </div>
@@ -96,7 +128,11 @@ const Home = () => {
                                 <img src={category.image} alt={category.name} />
                                 <div className="category-content">
                                     <h3 className="category-title">{category.name}</h3>
-                                    <span className="category-count">{category.count} sản phẩm</span>
+                                    <span className="category-count">
+                                        {categoryCounts[category.id] !== undefined
+                                            ? categoryCounts[category.id]
+                                            : '...'} sản phẩm
+                                    </span>
                                 </div>
                             </Link>
                         ))}
@@ -114,11 +150,20 @@ const Home = () => {
                             Những thức uống được khách hàng ưa chuộng nhất tại DrinkShop
                         </p>
                     </div>
-                    <div className="products-grid">
-                        {bestSellers.map(product => (
-                            <ProductCard key={product.id} product={product} />
-                        ))}
-                    </div>
+
+                    {loading ? (
+                        <div style={{ textAlign: 'center', padding: '40px 0' }}>
+                            <Loader size={30} className="spin" color="var(--primary-400)" />
+                            <p style={{ marginTop: '12px', color: 'var(--text-tertiary)' }}>Đang tải sản phẩm...</p>
+                        </div>
+                    ) : (
+                        <div className="products-grid">
+                            {bestSellers.map(product => (
+                                <ProductCard key={product.id} product={product} />
+                            ))}
+                        </div>
+                    )}
+
                     <div className="section-footer">
                         <Link to="/products" className="btn btn-outline btn-lg">
                             Xem Tất Cả Sản Phẩm

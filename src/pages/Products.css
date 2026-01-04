@@ -45,7 +45,7 @@
   background: var(--bg-glass);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  color: var(--text-primary);
+  color: var(--text-black);
   font-size: var(--text-base);
   transition: all var(--transition-fast);
 }
@@ -95,6 +95,11 @@
   font-size: var(--text-sm);
   cursor: pointer;
   min-width: 160px;
+}
+
+.sort-select option {
+  color: var(--text-black);
+  background: white;
 }
 
 .sort-select:focus {

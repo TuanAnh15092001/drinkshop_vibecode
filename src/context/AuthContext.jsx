@@ -9,7 +9,7 @@ import {
     signInWithPopup,
     updateProfile,
     sendPasswordResetEmail
-} from 'https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js';
+} from 'firebase/auth';
 import { auth } from '../firebase/index.js';
 
 const AuthContext = createContext();

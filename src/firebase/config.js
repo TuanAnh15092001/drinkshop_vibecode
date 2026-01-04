@@ -3,12 +3,13 @@
 // https://console.firebase.google.com/
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "YOUR_API_KEY",
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "YOUR_PROJECT_ID",
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "YOUR_SENDER_ID",
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || "YOUR_APP_ID"
+  apiKey: "AIzaSyCzApf4khqlIMvWgcPUzkqNdN1FVpyQx90",
+  authDomain: "drinkshop-357f3.firebaseapp.com",
+  projectId: "drinkshop-357f3",
+  storageBucket: "drinkshop-357f3.firebasestorage.app",
+  messagingSenderId: "648748308442",
+  appId: "1:648748308442:web:e6d355e429d08fca2d92e3",
+  measurementId: "G-HHKT1QDDT8"
 };
 
 export default firebaseConfig;

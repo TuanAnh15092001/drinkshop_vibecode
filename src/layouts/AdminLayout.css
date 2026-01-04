@@ -1,0 +1,158 @@
+.admin-layout {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f8fafc;
+    color: #1e293b;
+}
+
+/* Sidebar */
+.admin-sidebar {
+    width: 260px;
+    background-color: #1e293b; /* Dark Slate */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    z-index: 50;
+    transition: transform 0.3s ease;
+}
+
+.admin-sidebar-header {
+    padding: 24px;
+    border-bottom: 1px solid #334155;
+}
+
+.admin-sidebar-header h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #60a5fa; /* Blue 400 */
+    margin-bottom: 4px;
+}
+
+.admin-email {
+    font-size: 0.875rem;
+    color: #94a3b8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.admin-nav {
+    padding: 24px 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.admin-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 24px;
+    color: #cbd5e1;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s;
+    background: transparent;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+    font-size: 1rem;
+    text-align: left;
+}
+
+.admin-nav-item:hover {
+    background-color: #334155;
+    color: white;
+}
+
+.admin-nav-item.active {
+    background-color: #0ea5e9; /* Sky 500 */
+    color: white;
+}
+
+.admin-nav-divider {
+    height: 1px;
+    background-color: #334155;
+    margin: 12px 24px;
+}
+
+.logout-btn {
+    color: #f87171;
+}
+
+.logout-btn:hover {
+    background-color: #450a0a;
+}
+
+/* Main Content */
+.admin-main {
+    flex: 1;
+    margin-left: 260px;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.admin-header {
+    height: 64px;
+    background-color: white;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    position: sticky;
+    top: 0;
+    z-index: 40;
+}
+
+.admin-menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    margin-right: 16px;
+    cursor: pointer;
+    color: #64748b;
+}
+
+.admin-header h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #0f172a;
+}
+
+.admin-content {
+    flex: 1;
+    padding: 24px;
+    overflow-y: auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .admin-sidebar {
+        transform: translateX(-100%);
+    }
+
+    .admin-sidebar.open {
+        transform: translateX(0);
+    }
+
+    .admin-main {
+        margin-left: 0;
+    }
+
+    .admin-menu-toggle {
+        display: block;
+    }
+
+    .admin-overlay {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 45;
+    }
+}

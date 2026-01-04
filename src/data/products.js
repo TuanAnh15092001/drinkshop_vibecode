@@ -311,8 +311,9 @@ export const getNewProducts = () => {
 };
 
 export const formatPrice = (price) => {
+  const numericPrice = Number(price) || 0;
   return new Intl.NumberFormat('vi-VN', {
     style: 'currency',
     currency: 'VND'
-  }).format(price);
+  }).format(numericPrice);
 };

@@ -1,0 +1,276 @@
+export const sampleProducts = [
+    // --- Trà Sữa (5) ---
+    {
+        name: "Trà Sữa Truyền Thống",
+        category: "tra-sua",
+        price: 30000,
+        description: "Hương vị trà sữa đài loan nguyên bản, đậm đà vị trà, thơm béo vị sữa.",
+        image: "https://images.unsplash.com/photo-1558160074-4d7d8bdf4256?auto=format&fit=crop&w=400&q=80",
+        rating: 5,
+        reviews: 120,
+        isNew: false,
+        isBestSeller: true,
+        sizes: [
+            { name: "S", price: -5000 },
+            { name: "M", price: 0 },
+            { name: "L", price: 10000 }
+        ],
+        toppings: [
+            { id: "t1", name: "Trân châu đen", price: 5000 },
+            { id: "t2", name: "Pudding trứng", price: 10000 }
+        ]
+    },
+    {
+        name: "Trà Sữa Matcha Nhật Bản",
+        category: "tra-sua",
+        price: 45000,
+        description: "Sử dụng bột matcha Uji cao cấp từ Nhật Bản.",
+        image: "https://images.unsplash.com/photo-1546833998-877b37c2e553?auto=format&fit=crop&w=400&q=80",
+        rating: 4.8,
+        reviews: 85,
+        isNew: true,
+        isBestSeller: false,
+        sizes: [{ name: "M", price: 0 }, { name: "L", price: 10000 }],
+        toppings: [{ id: "t1", name: "Trân châu trắng", price: 5000 }]
+    },
+    {
+        name: "Trà Sữa Khoai Môn",
+        category: "tra-sua",
+        price: 40000,
+        description: "Vị khoai môn thơm bùi kết hợp với sữa tươi.",
+        image: "https://images.unsplash.com/photo-1626887966763-7c5b4b126317?auto=format&fit=crop&w=400&q=80",
+        rating: 4.5,
+        reviews: 45,
+        isNew: false,
+        isBestSeller: false,
+        sizes: [{ name: "M", price: 0 }, { name: "L", price: 10000 }],
+        toppings: []
+    },
+    {
+        name: "Trà Sữa Thái Xanh",
+        category: "tra-sua",
+        price: 35000,
+        description: "Trà Thái xanh đậm vị, ngọt ngào.",
+        image: "https://images.unsplash.com/photo-1618331835717-817e4d77bb80?auto=format&fit=crop&w=400&q=80",
+        rating: 4.6,
+        reviews: 60,
+        isNew: false,
+        isBestSeller: true,
+        sizes: [{ name: "M", price: 0 }, { name: "L", price: 10000 }],
+        toppings: [{ id: "t3", name: "Thạch rau câu", price: 5000 }]
+    },
+    {
+        name: "Trà Sữa Socola",
+        category: "tra-sua",
+        price: 38000,
+        description: "Socola nguyên chất hòa quyện cùng trà sữa.",
+        image: "https://images.unsplash.com/photo-1625442750370-1793612d7c57?auto=format&fit=crop&w=400&q=80",
+        rating: 4.7,
+        reviews: 55,
+        isNew: false,
+        isBestSeller: false,
+        sizes: [{ name: "M", price: 0 }, { name: "L", price: 10000 }],
+        toppings: []
+    },
+
+    // --- Cà Phê (5) ---
+    {
+        name: "Cà Phê Đen Đá",
+        category: "ca-phe",
+        price: 25000,
+        description: "Cà phê Robusta Việt Nam đậm đặc, tỉnh táo tức thì.",
+        image: "https://images.unsplash.com/photo-1559496417-e7f25cb247f3?auto=format&fit=crop&w=400&q=80",
+        rating: 4.8,
+        reviews: 200,
+        isNew: false,
+        isBestSeller: true,
+        sizes: [{ name: "S", price: 0 }, { name: "M", price: 5000 }],
+        toppings: []
+    },
+    {
+        name: "Cà Phê Sữa Đá",
+        category: "ca-phe",
+        price: 29000,
+        description: "Huyền thoại đường phố. Sự cân bằng hoàn hảo giữa đắng và ngọt.",
+        image: "https://images.unsplash.com/photo-1574360799797-15d78775443c?auto=format&fit=crop&w=400&q=80",
+        rating: 5,
+        reviews: 350,
+        isNew: false,
+        isBestSeller: true,
+        sizes: [{ name: "S", price: 0 }, { name: "M", price: 5000 }],
+        toppings: []
+    },
+    {
+        name: "Latte Nóng",
+        category: "ca-phe",
+        price: 45000,
+        description: "Espresso nhẹ nhàng với lớp bọt sữa mịn màng.",
+        image: "https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?auto=format&fit=crop&w=400&q=80",
+        rating: 4.6,
+        reviews: 80,
+        isNew: false,
+        isBestSeller: false,
+        sizes: [{ name: "M", price: 0 }, { name: "L", price: 10000 }],
+        toppings: []
+    },
+    {
+        name: "Cappuccino",
+        category: "ca-phe",
+        price: 45000,
+        description: "Hương vị Ý đích thực với lớp bọt sữa dày.",
+        image: "https://images.unsplash.com/photo-1517701604599-bb29b5c7fa32?auto=format&fit=crop&w=400&q=80",
+        rating: 4.7,
+        reviews: 90,
+        isNew: false,
+        isBestSeller: false,
+        sizes: [{ name: "M", price: 0 }, { name: "L", price: 10000 }],
+        toppings: []
+    },
+    {
+        name: "Bạc Xỉu",
+        category: "ca-phe",
+        price: 32000,
+        description: "Nhiều sữa ít cà phê, ngọt ngào dễ uống.",
+        image: "https://images.unsplash.com/photo-1582236894098-e7c62bb9d592?auto=format&fit=crop&w=400&q=80",
+        rating: 4.8,
+        reviews: 110,
+        isNew: true,
+        isBestSeller: true,
+        sizes: [{ name: "S", price: 0 }, { name: "M", price: 5000 }],
+        toppings: []
+    },
+
+    // --- Sinh Tố (5) ---
+    {
+        name: "Sinh Tố Bơ",
+        category: "sinh-to",
+        price: 45000,
+        description: "Bơ sáp dẻo quánh, béo ngậy, giàu dinh dưỡng.",
+        image: "https://images.unsplash.com/photo-1623816654378-c89b786cba75?auto=format&fit=crop&w=400&q=80",
+        rating: 4.9,
+        reviews: 150,
+        isNew: false,
+        isBestSeller: true,
+        sizes: [{ name: "M", price: 0 }],
+        toppings: []
+    },
+    {
+        name: "Sinh Tố Xoài",
+        category: "sinh-to",
+        price: 40000,
+        description: "Xoài cát chín ngọt lịm, thơm lừng.",
+        image: "https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?auto=format&fit=crop&w=400&q=80",
+        rating: 4.7,
+        reviews: 80,
+        isNew: false,
+        isBestSeller: false,
+        sizes: [{ name: "M", price: 0 }],
+        toppings: []
+    },
+    {
+        name: "Sinh Tố Dâu Tây",
+        category: "sinh-to",
+        price: 50000,
+        description: "Dâu tây Đà Lạt tươi mới, chua ngọt hài hòa.",
+        image: "https://images.unsplash.com/photo-1555620959-197fa17454f0?auto=format&fit=crop&w=400&q=80",
+        rating: 4.8,
+        reviews: 95,
+        isNew: false,
+        isBestSeller: false,
+        sizes: [{ name: "M", price: 0 }],
+        toppings: []
+    },
+    {
+        name: "Sinh Tố Việt Quất",
+        category: "sinh-to",
+        price: 55000,
+        description: "Việt quất nhập khẩu, giàu chất chống oxy hóa.",
+        image: "https://images.unsplash.com/photo-1598282939884-2a1d297ff04c?auto=format&fit=crop&w=400&q=80",
+        rating: 4.9,
+        reviews: 60,
+        isNew: true,
+        isBestSeller: false,
+        sizes: [{ name: "M", price: 0 }],
+        toppings: []
+    },
+    {
+        name: "Sinh Tố Chuối",
+        category: "sinh-to",
+        price: 35000,
+        description: "Chuối chín thơm, cung cấp năng lượng tức thì.",
+        image: "https://images.unsplash.com/photo-1601646270388-75c163013238?auto=format&fit=crop&w=400&q=80",
+        rating: 4.5,
+        reviews: 40,
+        isNew: false,
+        isBestSeller: false,
+        sizes: [{ name: "M", price: 0 }],
+        toppings: []
+    },
+
+    // --- Nước Ép (5) ---
+    {
+        name: "Nước Ép Cam",
+        category: "nuoc-ep",
+        price: 40000,
+        description: "Cam vắt nguyên chất, bổ sung Vitamin C.",
+        image: "https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&w=400&q=80",
+        rating: 4.8,
+        reviews: 130,
+        isNew: false,
+        isBestSeller: true,
+        sizes: [{ name: "M", price: 0 }, { name: "L", price: 10000 }],
+        toppings: []
+    },
+    {
+        name: "Nước Ép Dưa Hấu",
+        category: "nuoc-ep",
+        price: 35000,
+        description: "Dưa hấu đỏ ngọt mát, giải nhiệt cực đã.",
+        image: "https://images.unsplash.com/photo-1589733955941-5eeaf752f6dd?auto=format&fit=crop&w=400&q=80",
+        rating: 4.7,
+        reviews: 90,
+        isNew: false,
+        isBestSeller: false,
+        sizes: [{ name: "M", price: 0 }, { name: "L", price: 10000 }],
+        toppings: []
+    },
+    {
+        name: "Nước Ép Táo",
+        category: "nuoc-ep",
+        price: 45000,
+        description: "Táo tươi ép chậm, giữ trọn hương vị và dưỡng chất.",
+        image: "https://images.unsplash.com/photo-1610923019881-807d9f9c7379?auto=format&fit=crop&w=400&q=80",
+        rating: 4.6,
+        reviews: 75,
+        isNew: false,
+        isBestSeller: false,
+        sizes: [{ name: "M", price: 0 }, { name: "L", price: 10000 }],
+        toppings: []
+    },
+    {
+        name: "Nước Ép Ổi",
+        category: "nuoc-ep",
+        price: 38000,
+        description: "Ổi hồng thơm lừng, vị chua ngọt tự nhiên.",
+        image: "https://images.unsplash.com/photo-1536964549204-cce9eab227bd?auto=format&fit=crop&w=400&q=80",
+        rating: 4.8,
+        reviews: 65,
+        isNew: false,
+        isBestSeller: false,
+        sizes: [{ name: "M", price: 0 }, { name: "L", price: 10000 }],
+        toppings: []
+    },
+    {
+        name: "Nước Ép Cà Rốt",
+        category: "nuoc-ep",
+        price: 35000,
+        description: "Cà rốt tươi, tốt cho mắt và da.",
+        image: "https://images.unsplash.com/photo-1598155523122-3842334d6c10?auto=format&fit=crop&w=400&q=80",
+        rating: 4.5,
+        reviews: 50,
+        isNew: false,
+        isBestSeller: false,
+        sizes: [{ name: "M", price: 0 }, { name: "L", price: 10000 }],
+        toppings: []
+    }
+];

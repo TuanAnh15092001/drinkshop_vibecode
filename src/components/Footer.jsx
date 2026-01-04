@@ -19,10 +19,10 @@ const Footer = () => {
                             thơm ngon, tươi mát với nguyên liệu chất lượng cao.
                         </p>
                         <div className="footer-social">
-                            <a href="#" aria-label="Facebook"><Facebook size={18} /></a>
-                            <a href="#" aria-label="Instagram"><Instagram size={18} /></a>
-                            <a href="#" aria-label="Twitter"><Twitter size={18} /></a>
-                            <a href="#" aria-label="Youtube"><Youtube size={18} /></a>
+                            <a href="https://www.facebook.com/TuanAnh15092001/" aria-label="Facebook"><Facebook size={18} /></a>
+                            <a href="https://www.instagram.com/tunna_159/" aria-label="Instagram"><Instagram size={18} /></a>
+                            <a href="https://www.twitch.tv/tuananh1592001" aria-label="Twitter"><Twitter size={18} /></a>
+                            <a href="https://www.youtube.com/@TuanAnhNguyen-kr9hd" aria-label="Youtube"><Youtube size={18} /></a>
                         </div>
                     </div>
 
@@ -51,15 +51,15 @@ const Footer = () => {
                         <ul className="footer-contact">
                             <li>
                                 <MapPin size={16} />
-                                <span>123 Nguyễn Huệ, Q.1, TP.HCM</span>
+                                <span>49/30 đường số 51 phường 14, quận Gò Vấp, TP.HCM</span>
                             </li>
                             <li>
                                 <Phone size={16} />
-                                <span>1900 1234 56</span>
+                                <span>036.9829.547</span>
                             </li>
                             <li>
                                 <Mail size={16} />
-                                <span>hello@drinkshop.vn</span>
+                                <span>nguyentuan1592001@gmail.com</span>
                             </li>
                         </ul>
                     </div>
@@ -67,7 +67,7 @@ const Footer = () => {
 
                 <div className="footer-bottom">
                     <p className="footer-copyright">
-                        © 2024 DrinkShop. All rights reserved.
+                        © 2026 DrinkShop. All rights reserved.
                     </p>
                     <div className="footer-payment">
                         <img src="https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png" alt="MoMo" height="24" />

@@ -1,20 +1,42 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Search, SlidersHorizontal, X } from 'lucide-react';
+import { Search, SlidersHorizontal, X, Loader } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
-import { products, categories } from '../data/products';
+import FirestoreSeeder from '../components/FirestoreSeeder';
+import { categories } from '../data/products';
+import { getAllProducts } from '../services/productService';
 import './Products.css';
 
 const Products = () => {
     const [searchParams, setSearchParams] = useSearchParams();
-    const [filteredProducts, setFilteredProducts] = useState(products);
+    const [allProducts, setAllProducts] = useState([]);
+    const [filteredProducts, setFilteredProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || 'all');
     const [sortBy, setSortBy] = useState('default');
     const [showFilters, setShowFilters] = useState(false);
 
+    // Initial fetch from Firestore
     useEffect(() => {
-        let result = [...products];
+        const fetchProducts = async () => {
+            setLoading(true);
+            try {
+                const data = await getAllProducts();
+                setAllProducts(data);
+                setFilteredProducts(data);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchProducts();
+    }, []);
+
+    // Filter and Sort logic
+    useEffect(() => {
+        let result = [...allProducts];
 
         // Filter by category
         if (selectedCategory && selectedCategory !== 'all') {
@@ -25,7 +47,7 @@ const Products = () => {
         if (searchTerm) {
             result = result.filter(p =>
                 p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                p.description.toLowerCase().includes(searchTerm.toLowerCase())
+                (p.description && p.description.toLowerCase().includes(searchTerm.toLowerCase()))
             );
         }
 
@@ -38,7 +60,7 @@ const Products = () => {
                 result.sort((a, b) => b.price - a.price);
                 break;
             case 'rating':
-                result.sort((a, b) => b.rating - a.rating);
+                result.sort((a, b) => (b.rating || 0) - (a.rating || 0));
                 break;
             case 'name':
                 result.sort((a, b) => a.name.localeCompare(b.name));
@@ -48,7 +70,7 @@ const Products = () => {
         }
 
         setFilteredProducts(result);
-    }, [selectedCategory, searchTerm, sortBy]);
+    }, [selectedCategory, searchTerm, sortBy, allProducts]);
 
     useEffect(() => {
         const category = searchParams.get('category');
@@ -70,11 +92,14 @@ const Products = () => {
     return (
         <div className="products-page">
             <div className="container">
+                {/* Seed Data Utility (Visible for development) */}
+                {allProducts.length === 0 && !loading && <FirestoreSeeder />}
+
                 {/* Header */}
                 <div className="products-header">
                     <div>
                         <h1>Tất Cả Sản Phẩm</h1>
-                        <p>{filteredProducts.length} sản phẩm</p>
+                        {!loading && <p>{filteredProducts.length} sản phẩm</p>}
                     </div>
                 </div>
 
@@ -158,7 +183,6 @@ const Products = () => {
                                         />
                                         <span className="checkmark"></span>
                                         <span>{cat.name}</span>
-                                        <span className="count">({cat.count})</span>
                                     </label>
                                 ))}
                             </div>
@@ -167,7 +191,12 @@ const Products = () => {
 
                     {/* Products Grid */}
                     <div className="products-content">
-                        {filteredProducts.length === 0 ? (
+                        {loading ? (
+                            <div className="loading-container" style={{ textAlign: 'center', padding: '100px 0' }}>
+                                <Loader size={40} className="spin" color="var(--primary-400)" />
+                                <p style={{ marginTop: '20px' }}>Đang tải sản phẩm...</p>
+                            </div>
+                        ) : filteredProducts.length === 0 ? (
                             <div className="no-products">
                                 <p>Không tìm thấy sản phẩm nào</p>
                                 <button

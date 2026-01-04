@@ -1,20 +1,59 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Star, Plus, Minus, ShoppingCart, Heart, ChevronLeft, Check } from 'lucide-react';
+import { Star, Plus, Minus, ShoppingCart, Heart, ChevronLeft, Check, Loader } from 'lucide-react';
 import { useCart } from '../context/CartContext';
-import { getProductById, products, formatPrice } from '../data/products';
+import { getProductById, getAllProducts } from '../services/productService';
+import { formatPrice } from '../data/products';
 import ProductCard from '../components/ProductCard';
 import './ProductDetail.css';
 
 const ProductDetail = () => {
     const { id } = useParams();
-    const product = getProductById(id);
+    const [product, setProduct] = useState(null);
+    const [relatedProducts, setRelatedProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
     const { addToCart } = useCart();
 
     const [quantity, setQuantity] = useState(1);
-    const [selectedSize, setSelectedSize] = useState('M');
+    const [selectedSize, setSelectedSize] = useState(null);
     const [selectedToppings, setSelectedToppings] = useState([]);
     const [isAdded, setIsAdded] = useState(false);
+
+    useEffect(() => {
+        const fetchProductData = async () => {
+            setLoading(true);
+            try {
+                const productData = await getProductById(id);
+                if (productData) {
+                    setProduct(productData);
+                    // Set default size (prefer 'M' or first available)
+                    const defaultSize = productData.sizes?.find(s => s.name === 'M') || productData.sizes?.[0] || { name: 'M', price: 0 };
+                    setSelectedSize(defaultSize);
+
+                    // Fetch related products
+                    const allProd = await getAllProducts();
+                    const related = allProd
+                        .filter(p => p.category === productData.category && p.id !== productData.id)
+                        .slice(0, 4);
+                    setRelatedProducts(related);
+                }
+            } catch (error) {
+                console.error('Error fetching product detail:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchProductData();
+    }, [id]);
+
+    if (loading) {
+        return (
+            <div className="loading-container" style={{ textAlign: 'center', padding: '100px 0' }}>
+                <Loader size={40} className="spin" color="var(--primary-400)" />
+                <p style={{ marginTop: '20px' }}>Đang tải chi tiết sản phẩm...</p>
+            </div>
+        );
+    }
 
     if (!product) {
         return (
@@ -24,10 +63,6 @@ const ProductDetail = () => {
             </div>
         );
     }
-
-    const relatedProducts = products
-        .filter(p => p.category === product.category && p.id !== product.id)
-        .slice(0, 4);
 
     const handleToppingToggle = (topping) => {
         setSelectedToppings(prev => {
@@ -40,13 +75,13 @@ const ProductDetail = () => {
     };
 
     const calculatePrice = () => {
-        const sizePrice = selectedSize === 'L' ? 10000 : selectedSize === 'S' ? -5000 : 0;
-        const toppingsPrice = selectedToppings.reduce((sum, t) => sum + t.price, 0);
-        return (product.price + sizePrice + toppingsPrice) * quantity;
+        const sizePriceAdjustment = Number(selectedSize?.price) || 0;
+        const toppingsPrice = selectedToppings.reduce((sum, t) => sum + (Number(t.price) || 0), 0);
+        return (Number(product.price || 0) + sizePriceAdjustment + toppingsPrice) * quantity;
     };
 
     const handleAddToCart = () => {
-        addToCart(product, quantity, selectedSize, selectedToppings);
+        addToCart(product, quantity, selectedSize?.name || 'M', selectedToppings);
         setIsAdded(true);
         setTimeout(() => setIsAdded(false), 2000);
     };
@@ -72,7 +107,7 @@ const ProductDetail = () => {
 
                     {/* Info */}
                     <div className="product-detail-info">
-                        <span className="product-detail-category">{product.categoryName}</span>
+                        <span className="product-detail-category">{product.categoryName || product.category}</span>
                         <h1 className="product-detail-title">{product.name}</h1>
 
                         <div className="product-detail-rating">
@@ -81,12 +116,12 @@ const ProductDetail = () => {
                                     <Star
                                         key={i}
                                         size={18}
-                                        fill={i < Math.floor(product.rating) ? 'currentColor' : 'none'}
+                                        fill={i < Math.floor(product.rating || 0) ? 'currentColor' : 'none'}
                                     />
                                 ))}
                             </div>
-                            <span>{product.rating}</span>
-                            <span className="reviews">({product.reviews} đánh giá)</span>
+                            <span>{product.rating || 0}</span>
+                            <span className="reviews">({product.reviews || 0} đánh giá)</span>
                         </div>
 
                         <p className="product-detail-description">{product.description}</p>
@@ -95,11 +130,15 @@ const ProductDetail = () => {
                         <div className="option-group">
                             <h4>Chọn size</h4>
                             <div className="size-options">
-                                {product.sizes?.map(size => (
+                                {(product.sizes && product.sizes.length > 0 ? product.sizes : [
+                                    { name: 'S', price: -5000 },
+                                    { name: 'M', price: 0 },
+                                    { name: 'L', price: 10000 }
+                                ]).map(size => (
                                     <button
                                         key={size.name}
-                                        className={`size-btn ${selectedSize === size.name ? 'active' : ''}`}
-                                        onClick={() => setSelectedSize(size.name)}
+                                        className={`size-btn ${selectedSize?.name === size.name ? 'active' : ''}`}
+                                        onClick={() => setSelectedSize(size)}
                                     >
                                         <span className="size-name">{size.name}</span>
                                         <span className="size-price">
@@ -112,7 +151,7 @@ const ProductDetail = () => {
                         </div>
 
                         {/* Toppings */}
-                        {product.toppings?.length > 0 && (
+                        {product.toppings && product.toppings.length > 0 && (
                             <div className="option-group">
                                 <h4>Topping thêm</h4>
                                 <div className="topping-options">
@@ -130,7 +169,7 @@ const ProductDetail = () => {
                                                 <Check size={14} />
                                             </span>
                                             <span className="topping-name">{topping.name}</span>
-                                            <span className="topping-price">+{formatPrice(topping.price)}</span>
+                                            <span className="topping-price">+{formatPrice(topping.price || 0)}</span>
                                         </label>
                                     ))}
                                 </div>
