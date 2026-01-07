@@ -5,6 +5,8 @@ import { useCart } from '../context/CartContext';
 import { getProductById, getAllProducts } from '../services/productService';
 import { formatPrice } from '../data/products';
 import ProductCard from '../components/ProductCard';
+import ReviewForm from '../components/ReviewForm';
+import ReviewList from '../components/ReviewList';
 import './ProductDetail.css';
 
 const ProductDetail = () => {
@@ -18,6 +20,7 @@ const ProductDetail = () => {
     const [selectedSize, setSelectedSize] = useState(null);
     const [selectedToppings, setSelectedToppings] = useState([]);
     const [isAdded, setIsAdded] = useState(false);
+    const [refreshReviews, setRefreshReviews] = useState(0);
 
     useEffect(() => {
         const fetchProductData = async () => {
@@ -44,7 +47,7 @@ const ProductDetail = () => {
             }
         };
         fetchProductData();
-    }, [id]);
+    }, [id, refreshReviews]);
 
     if (loading) {
         return (
@@ -223,6 +226,18 @@ const ProductDetail = () => {
                             </button>
                         </div>
                     </div>
+                </div>
+
+                {/* Reviews Section */}
+                <div className="reviews-section" style={{ maxWidth: '800px', margin: '40px auto' }}>
+                    <ReviewForm 
+                        productId={product.id} 
+                        onReviewAdded={() => {
+                             setRefreshReviews(prev => prev + 1);
+                             // Optionally re-fetch product details to update average rating header
+                        }} 
+                    />
+                    <ReviewList productId={product.id} refreshTrigger={refreshReviews} />
                 </div>
 
                 {/* Related Products */}

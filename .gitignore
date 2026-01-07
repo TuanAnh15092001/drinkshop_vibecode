@@ -29,4 +29,4 @@ dist-ssr
 .env.production
 
 # Firebase config with real keys (use config.example.js as template)
-src/firebase/config.js
+

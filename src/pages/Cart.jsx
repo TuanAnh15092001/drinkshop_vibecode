@@ -1,11 +1,26 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import { Trash2, Plus, Minus, ShoppingBag, ArrowRight, CreditCard } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import { formatPrice } from '../data/products';
+import PaymentMethodModal from '../components/PaymentMethodModal';
 import './Cart.css';
 
 const Cart = () => {
     const { cartItems, updateQuantity, removeFromCart, getCartTotal, clearCart } = useCart();
+    const { currentUser } = useAuth();
+    const navigate = useNavigate();
+    const [showPaymentModal, setShowPaymentModal] = useState(false);
+
+    const handleCheckout = () => {
+        if (!currentUser) {
+            // Chưa đăng nhập, chuyển đến trang login
+            navigate('/login', { state: { from: '/cart', message: 'Vui lòng đăng nhập để tiến hành thanh toán' } });
+            return;
+        }
+        setShowPaymentModal(true);
+    };
 
     const calculateItemPrice = (item) => {
         const sizePrice = item.size === 'L' ? 10000 : item.size === 'S' ? -5000 : 0;
@@ -127,7 +142,10 @@ const Cart = () => {
                             <button className="btn btn-secondary">Áp dụng</button>
                         </div>
 
-                        <button className="btn btn-primary btn-lg btn-block checkout-btn">
+                        <button 
+                            className="btn btn-primary btn-lg btn-block checkout-btn"
+                            onClick={handleCheckout}
+                        >
                             <CreditCard size={20} />
                             Tiến hành thanh toán
                         </button>
@@ -142,6 +160,17 @@ const Cart = () => {
                     </div>
                 </div>
             </div>
+
+            <PaymentMethodModal 
+                isOpen={showPaymentModal} 
+                onClose={() => setShowPaymentModal(false)} 
+                totalAmount={getCartTotal()}
+                cartItems={cartItems}
+                onPaymentSuccess={() => {
+                    clearCart();
+                    setShowPaymentModal(false);
+                }}
+            />
         </div>
     );
 };

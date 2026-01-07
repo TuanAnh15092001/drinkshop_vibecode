@@ -1,38 +1,33 @@
 import { 
   collection, 
-  doc, 
   addDoc, 
-  getDocs,
+  serverTimestamp,
   query,
   where,
   orderBy,
-  updateDoc
+  getDocs
 } from 'firebase/firestore';
 import { db } from '../firebase';
 
 const ORDERS_COLLECTION = 'orders';
 
-// Create new order
-export const createOrder = async (orderData, userId) => {
+// Create a new order
+export const createOrder = async (orderData) => {
   try {
-    const order = {
+    const docRef = await addDoc(collection(db, ORDERS_COLLECTION), {
       ...orderData,
-      userId,
-      status: 'pending', // pending, confirmed, preparing, delivering, completed, cancelled
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    };
-    
-    const docRef = await addDoc(collection(db, ORDERS_COLLECTION), order);
-    return { id: docRef.id, ...order };
+      status: 'pending', // pending, confirmed, completed, cancelled
+      createdAt: serverTimestamp()
+    });
+    return docRef.id;
   } catch (error) {
     console.error('Error creating order:', error);
     throw error;
   }
 };
 
-// Get orders by user
-export const getOrdersByUser = async (userId) => {
+// Get orders by user ID
+export const getOrdersByUserId = async (userId) => {
   try {
     const q = query(
       collection(db, ORDERS_COLLECTION),
@@ -42,24 +37,11 @@ export const getOrdersByUser = async (userId) => {
     const querySnapshot = await getDocs(q);
     return querySnapshot.docs.map(doc => ({
       id: doc.id,
-      ...doc.data()
+      ...doc.data(),
+      createdAt: doc.data().createdAt?.toDate() || new Date()
     }));
   } catch (error) {
     console.error('Error getting orders:', error);
-    throw error;
-  }
-};
-
-// Update order status (for admin)
-export const updateOrderStatus = async (orderId, status) => {
-  try {
-    const docRef = doc(db, ORDERS_COLLECTION, orderId);
-    await updateDoc(docRef, {
-      status,
-      updatedAt: new Date().toISOString()
-    });
-  } catch (error) {
-    console.error('Error updating order status:', error);
     throw error;
   }
 };
@@ -74,7 +56,8 @@ export const getAllOrders = async () => {
     const querySnapshot = await getDocs(q);
     return querySnapshot.docs.map(doc => ({
       id: doc.id,
-      ...doc.data()
+      ...doc.data(),
+      createdAt: doc.data().createdAt?.toDate() || new Date()
     }));
   } catch (error) {
     console.error('Error getting all orders:', error);
